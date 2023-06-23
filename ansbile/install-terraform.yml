@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Install prerequisite packages
+      apt:
+        name: ["gnupg", "software-properties-common"]
+        update_cache: yes
+        state: present
+
+    - name: Download HashiCorp GPG key
+      get_url:
+        url: "https://apt.releases.hashicorp.com/gpg"
+        dest: "/tmp/hashicorp.gpg"
+
+    - name: De-armor and install HashiCorp GPG key
+      shell: |
+        cat /tmp/hashicorp.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+    - name: Verify the key's fingerprint
+      command: gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+
+    - name: Add the HashiCorp repository
+      apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        state: present
+
+    - name: Update the package lists for the new repository
+      apt:
+        update_cache: yes
+
+    - name: Install Terraform
+      apt:
+        name: terraform
+        state: present
+...
