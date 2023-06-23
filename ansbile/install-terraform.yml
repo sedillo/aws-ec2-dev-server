@@ -20,9 +20,13 @@
     - name: Verify the key's fingerprint
       command: gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
 
+    - name: Get lsb_release output
+      command: lsb_release -cs
+      register: lsb_release_output
+
     - name: Add the HashiCorp repository
       apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ lsb_release_output.stdout }} main"
         state: present
 
     - name: Update the package lists for the new repository
