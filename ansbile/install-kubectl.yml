@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    kubectl_version: v1.27.3
+  tasks:
+    - name: Install required packages
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Download and install kubectl
+      get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Verify kubectl installation
+      command: kubectl version --client
+...
+

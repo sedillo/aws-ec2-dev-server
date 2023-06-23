@@ -35,9 +35,28 @@ sudo add-apt-repository -y --update ppa:ansible/ansible
 sudo apt install git ansible -y
 ```
 
-## Install Terraform
+## Install necessary utilities
 ```bash
 git clone https://github.com/sedillo/aws-ec2-dev-server.git config
 cd config/ansible
+ansible-playbook -i hosts.ini install_awscli.yml
 ansible-playbook -i hosts.ini install_terraform.yml
+ansible-playbook -i hosts.ini awscli_install.yml
+```
+
+## Enable AWS Programmatic access
+In the AWS console create a user with programmatic access and fill in the values below
+```bash
+aws configure
+```
+
+## Terraform
+Use the terraform files to create the necessary infrastructure for the k8s cluster
+- 3 controller nodes
+- 3 worker nodes
+```bash
+cd config/terraform
+terraform init
+terraform plan
+terraform apply
 ```

@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Install required packages
+      apt:
+        name: wget
+        state: present
+        update_cache: yes
+
+    - name: Download and install cfssl
+      get_url:
+        url: https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssl_1.6.4_linux_amd64
+        dest: /usr/local/bin/cfssl
+        mode: '0755'
+
+    - name: Download and install cfssljson
+      get_url:
+        url: https://github.com/cloudflare/cfssl/releases/download/v1.6.4/cfssljson_1.6.4_linux_amd64
+        dest: /usr/local/bin/cfssljson
+        mode: '0755'
+
+    - name: Verify cfssl installation
+      command: cfssl version
+
+    - name: Verify cfssljson installation
+      command: cfssljson -version
