@@ -1,0 +1,32 @@
+---
+- name: Install eksctl on localhost
+  hosts: localhost
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Download eksctl binary
+      get_url:
+        url: https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_Linux_amd64.tar.gz
+        dest: /tmp/eksctl.tar.gz
+        mode: '0755'
+
+
+    - name: Extract eksctl binary
+      unarchive:
+        src: /tmp/eksctl.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Move eksctl binary to /usr/local/bin
+      command: mv /tmp/eksctl /usr/local/bin/eksctl
+
+    - name: Confirm eksctl is available in PATH
+      command: eksctl version
+      register: result
+
+    - name: Show eksctl version
+      debug:
+        msg: "{{ result.stdout }}"
+...
+
