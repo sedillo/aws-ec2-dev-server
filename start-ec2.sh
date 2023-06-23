@@ -1,13 +1,5 @@
 #!/bin/bash
 
-NAME="aws-dev"
-AWS_REGION="us-west-1"
-KEY_NAME=${NAME}-key
-SECURITY_GROUP_NAME=${NAME}-sg
-INSTANCE_TYPE="t2.micro"
-AMI_ID="ami-0f8e81a3da6e2510a"
-CONFIG_FILE="install-ansible.txt"
-
 # Create a key-pair
 aws ec2 create-key-pair \
   --region $AWS_REGION \

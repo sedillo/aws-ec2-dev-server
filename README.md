@@ -6,13 +6,13 @@ Log into AWS cloudshell
 
 Next configure the following variables in the start-ec2.sh script
 ```bash
-NAME="aws-dev"
-AWS_REGION="us-west-1"
-KEY_NAME=${NAME}-key
-SECURITY_GROUP_NAME=${NAME}-sg
-INSTANCE_TYPE="t2.micro"
-AMI_ID="ami-0f8e81a3da6e2510a"
-CONFIG_FILE="install-ansible.txt"
+export NAME="aws-dev"
+export AWS_REGION="us-west-1"
+export KEY_NAME=${NAME}-key
+export SECURITY_GROUP_NAME=${NAME}-sg
+export INSTANCE_TYPE="t2.micro"
+export AMI_ID="ami-0f8e81a3da6e2510a" # AMI Ubuntu 22.04
+export CONFIG_FILE="install-ansible.txt"
 ```
 
 Run the script, wait for script to finish
