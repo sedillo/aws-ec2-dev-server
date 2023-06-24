@@ -1,0 +1,25 @@
+---
+- name: Install Helm on localhost
+  hosts: localhost
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Download Helm installation script
+      get_url:
+        url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        dest: /tmp/get_helm.sh
+        mode: '0700'
+
+    - name: Execute Helm installation script
+      command: /tmp/get_helm.sh
+
+    - name: Verify Helm installation
+      command: helm version
+      register: result
+
+    - name: Show Helm version
+      debug:
+        msg: "{{ result.stdout }}"
+...
+
