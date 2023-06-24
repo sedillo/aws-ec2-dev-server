@@ -22,7 +22,8 @@ sudo apt install git ansible curl nmap lsof wget -y
 
 ```bash
 git clone https://github.com/sedillo/aws-ec2-dev-server.git config
-cd config/ansible/
+cd config/
+cp vimrc ~/.vimrc
 ```
 
 ## Install AWS
