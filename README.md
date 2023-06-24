@@ -1,7 +1,39 @@
-# Create an EC2 development server
+# New Dev Server
 
-## Create dev server EC2 instance using AWS cloudshell
+## Github Keys
 
+Create SSH Github keys
+```bash
+ssh-keygen -t ed25519 -C "EMAIL"
+cat ~/.ssh/id_ed25519.pub
+```
+[Add SSH key](https://github.com/settings/ssh/new)
+
+## Install Ansible
+
+```bash
+sudo apt update -y
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y --update ppa:ansible/ansible
+sudo apt install git ansible curl nmap lsof wget -y
+```
+
+## Source Code
+
+```bash
+git clone https://github.com/sedillo/aws-ec2-dev-server.git config
+cd config/ansible/
+```
+
+## Install AWS
+In the AWS console create a user, add programmatic access, and fill in the values below.
+```bash
+ansible-playbook -i hosts.ini install-awscli.yml
+aws configure
+ansible-playbook -i hosts.ini install-terraform.yml
+```
+
+# Specific setup for EC2
 Log into AWS cloudshell
 
 Next configure the following variables in the start-ec2.sh script
@@ -26,37 +58,3 @@ At this point you can navigate to AWS Console
 - Go to EC2 instances, and click on the instance just created
 - Click Connect
 - Click EC2 Instance Connect
-- Execute commands
-
-```bash
-sudo apt update -y
-sudo apt install -y software-properties-common
-sudo add-apt-repository -y --update ppa:ansible/ansible
-sudo apt install git ansible -y
-```
-
-## Install necessary utilities
-```bash
-git clone https://github.com/sedillo/aws-ec2-dev-server.git config
-cd config/ansible
-ansible-playbook -i hosts.ini install_awscli.yml
-ansible-playbook -i hosts.ini install_terraform.yml
-ansible-playbook -i hosts.ini awscli_install.yml
-```
-
-## Enable AWS Programmatic access
-In the AWS console create a user with programmatic access and fill in the values below
-```bash
-aws configure
-```
-
-## Terraform
-Use the terraform files to create the necessary infrastructure for the k8s cluster
-- 3 controller nodes
-- 3 worker nodes
-```bash
-cd config/terraform
-terraform init
-terraform plan
-terraform apply
-```
