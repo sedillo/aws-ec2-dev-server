@@ -1,0 +1,12 @@
+vpc_name            = "terraform"
+
+global_region       = "us-west-1"
+availability_zones  = ["us-west-1b", "us-west-1c"]
+
+private_subnets     = ["10.0.1.0/24", "10.0.2.0/24"]
+public_subnets      = ["10.0.101.0/24", "10.0.102.0/24"]
+
+ami_id              = "ami-0f8e81a3da6e2510a"
+instance_type       = "t2.micro"
+
+ssh_key_name        = "my-key-pair"
